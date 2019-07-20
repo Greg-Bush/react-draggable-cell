@@ -26,5 +26,18 @@
   "bugs": {
     "url": "https://github.com/Greg-Bush/react-native-draggable-view/issues"
   },
-  "homepage": "https://github.com/Greg-Bush/react-native-draggable-view#readme"
+  "homepage": "https://github.com/Greg-Bush/react-native-draggable-view#readme",
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-native": "^0.60.4"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.23",
+    "@types/react-native": "^0.60.2",
+    "tslint": "^5.18.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.3",
+    "typescript-tslint-plugin": "^0.5.4"
+  }
 }

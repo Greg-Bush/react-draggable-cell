@@ -1,0 +1,9 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-airbnb"],
+  "rules": {
+    "indent": [true, "tabs", 2],
+    "ter-indent": false,
+    "variable-name": false
+  }
+}

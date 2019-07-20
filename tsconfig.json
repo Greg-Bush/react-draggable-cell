@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist/",
+		"sourceMap": true,
+		"noImplicitAny": false,
+		"allowSyntheticDefaultImports": true,
+		"declaration": true,
+		"declarationDir": ".",
+		"esModuleInterop": true,
+		"jsx": "react",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"strict": true,
+		"target": "es6",
+		"plugins": [
+			{
+				"name": "typescript-tslint-plugin",
+				"configFile": "tslint.json"
+			}
+		]
+	},
+	"exclude": [
+		"node_modules",
+		"dist"
+	],
+	"include": [
+		"src", "index.tsx"
+	]
+}
