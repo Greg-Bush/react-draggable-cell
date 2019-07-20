@@ -1,0 +1,30 @@
+{
+  "name": "react-native-draggable-view",
+  "version": "1.0.0",
+  "description": "Grid-based draggable View Component with children elements support for React Native",
+  "main": "index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greg-Bush/react-native-draggable-view.git"
+  },
+  "keywords": [
+    "draggable",
+    "drag",
+    "drop",
+    "grid",
+    "typescript",
+    "ts",
+    "react-native",
+    "view",
+    "component"
+  ],
+  "author": "Greg-Bush <greg.bush.main@icloud.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Greg-Bush/react-native-draggable-view/issues"
+  },
+  "homepage": "https://github.com/Greg-Bush/react-native-draggable-view#readme"
+}
