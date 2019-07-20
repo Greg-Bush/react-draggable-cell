@@ -2,7 +2,7 @@
   "name": "react-native-draggable-view",
   "version": "1.0.0",
   "description": "Grid-based draggable View Component with children elements support for React Native",
-  "main": "index.tsx",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
