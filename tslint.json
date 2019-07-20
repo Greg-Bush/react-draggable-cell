@@ -2,8 +2,10 @@
   "defaultSeverity": "error",
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-airbnb"],
   "rules": {
-    "indent": [true, "tabs", 2],
+    "indent": false,
     "ter-indent": false,
-    "variable-name": false
+    "variable-name": false,
+    "jsx-no-multiline-js": false,
+    "object-literal-sort-keys": false
   }
 }

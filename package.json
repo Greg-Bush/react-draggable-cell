@@ -29,7 +29,8 @@
   "homepage": "https://github.com/Greg-Bush/react-native-draggable-view#readme",
   "dependencies": {
     "react": "^16.8.6",
-    "react-native": "^0.60.4"
+    "react-native": "^0.60.4",
+    "react-spring": "^8.0.27"
   },
   "devDependencies": {
     "@types/react": "^16.8.23",
