@@ -1,39 +1,40 @@
+import _ from 'lodash';
 import * as React from 'react';
 import { PanResponder, View, ViewProps } from 'react-native';
 import { animated, Spring } from 'react-spring/renderprops-native';
+import Cell from './Cell';
+import Draggable from './Draggable';
+import Grid from './Grid';
+import { ICoordinates } from './ICoordinates';
+import { IDimensions } from './IDimensions';
+import { IGrid } from "./IGrid";
 
 const AnimatedView: typeof View = animated(View);
 
-interface IDimensions {
-  width: number;
-  height: number;
+interface IDraggableState extends ICoordinates {
+  touchedCells: Cell[];
 }
-interface ICoordinates {
-  left: number;
-  top: number;
+interface IOnMoveArgs {
+  prev: IDraggableState;
+  current: IDraggableState;
 }
-type DraggableDimensions = IDimensions & ICoordinates;
-interface IGrid {
-  columnsCount: number;
-  rowsCount: number;
-  cellWidth: number;
-  cellHeight: number;
-}
-
-interface IDraggableViewProps extends DraggableDimensions, IGrid {
+interface IDraggableViewProps extends IDimensions, ICoordinates, IGrid {
   style?: ViewProps;
   onDragStart: () => void;
-  onDragEnd: (coordinates: ICoordinates) => void;
+  onDragEnd: (state: IOnMoveArgs) => void;
+}
+interface IDraggableViewState extends IDraggableState {
+  grid: Grid;
+  draggable: Draggable;
 }
 
-// TODO: Coordinates state refactoring
-type DraggableViewState = ICoordinates;
-
 export default class DraggableView extends
-  React.Component<IDraggableViewProps, DraggableViewState> {
-  public static getDerivedStateFromProps(props: IDraggableViewProps) {
+  React.Component<IDraggableViewProps, IDraggableViewState> {
+  public static getDerivedStateFromProps(props: IDraggableViewProps): IDraggableViewState {
     const { top, left } = props;
-    return { top, left };
+    const grid = new Grid(props);
+    const draggable = new Draggable(props);
+    return { top, left, grid, draggable, touchedCells: getTouchedCells(grid.cells, draggable) };
   }
   private _ref = React.createRef<View>();
   private get draggableRef() {
@@ -62,7 +63,6 @@ export default class DraggableView extends
       const top = this.computeTopValue(gestureState.dy);
       const left = this.computeLeftValue(gestureState.dx);
       this.shift({ top, left });
-      // TODO: onMove prop with previous and current row and column indexes
     },
     onPanResponderTerminationRequest: () => true,
     onPanResponderRelease: (evt, gestureState) => {
@@ -82,13 +82,11 @@ export default class DraggableView extends
       this.shift({});
     },
   });
-  private area: IDimensions;
-  constructor(props: IDraggableViewProps) {
-    super(props);
-    this.area = computeArea(props);
+  private get grid(): Grid {
+    return this.state.grid;
   }
-  public componentDidUpdate(prevProps: IDraggableViewProps, prevState: DraggableViewState) {
-    this.area = computeArea(this.props);
+  private get draggable(): Draggable {
+    return this.state.draggable;
   }
   public render() {
     const { top, left } = this.state;
@@ -96,7 +94,7 @@ export default class DraggableView extends
     return (
       <Spring native={true} to={{ top, left, width, height }}>
         {
-          (springProps: DraggableDimensions) => (
+          (springProps: IDimensions & ICoordinates) => (
             <AnimatedView
               ref={this._ref}
               style={[{
@@ -118,7 +116,7 @@ export default class DraggableView extends
     if (top < 0) {
       top = 0;
     }
-    const maxValue = this.area.height - this.props.height;
+    const maxValue = this.grid.area.height - this.props.height;
     if (top > maxValue) {
       top = maxValue;
     }
@@ -129,7 +127,7 @@ export default class DraggableView extends
     if (left < 0) {
       left = 0;
     }
-    const maxValue = this.area.width - this.props.width;
+    const maxValue = this.grid.area.width - this.props.width;
     if (left > maxValue) {
       left = maxValue;
     }
@@ -147,19 +145,19 @@ export default class DraggableView extends
     top = this.state.top,
     left = this.state.left,
   }) {
-    const args = { top, left };
-    this.setState(args);
-    this.props.onDragEnd(args);
+    const draggable = new Draggable({ top, left, ...this.props });
+    const { grid } = this.state;
+    const args = { top, left, draggable, touchedCells: getTouchedCells(grid.cells, draggable) };
+    this.props.onDragEnd({
+      prev: this.state,
+      current: args,
+    });
+    this.setState({
+      ...this.state,
+      ...args,
+    });
   }
 }
-
-const computeArea = (gridProps: IGrid): IDimensions => {
-  const { cellHeight, cellWidth, columnsCount, rowsCount } = gridProps;
-  return {
-    height: cellHeight * rowsCount,
-    width: cellWidth * columnsCount,
-  };
-};
 
 const stepAlign = (coordinate: number, length: number, step: number) => {
   const end = coordinate + length;
@@ -182,3 +180,6 @@ const stepAlign = (coordinate: number, length: number, step: number) => {
   const newStartIndex = Math.round(startStepsCount);
   return newStartIndex * step;
 };
+
+const getTouchedCells = (cells: Cell[], draggable: Draggable) =>
+  _.filter(cells, cell => cell.isTouched(draggable));
