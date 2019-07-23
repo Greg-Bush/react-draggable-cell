@@ -1,5 +1,5 @@
 {
-  "name": "react-native-draggable-view",
+  "name": "react-draggable-cell",
   "version": "1.0.0",
   "description": "Grid-based draggable View Component with children elements support for React Native",
   "main": "index.ts",
@@ -15,8 +15,11 @@
     "drag",
     "drop",
     "grid",
+    "cell",
     "typescript",
     "ts",
+    "react",
+    "native",
     "react-native",
     "view",
     "component"
