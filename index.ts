@@ -1,1 +1,1 @@
-export { default as DraggableView } from './src/DraggableView';
+export { default as DraggableCell } from './src/DraggableCell';

@@ -18,19 +18,19 @@ interface IOnMoveArgs {
   prev: IDraggableState;
   current: IDraggableState;
 }
-interface IDraggableViewProps extends IDimensions, ICoordinates, IGrid {
+interface IDraggableCellProps extends IDimensions, ICoordinates, IGrid {
   style?: ViewProps;
   onDragStart: () => void;
   onDragEnd: (state: IOnMoveArgs) => void;
 }
-interface IDraggableViewState extends IDraggableState {
+interface IDraggableCellState extends IDraggableState {
   grid: Grid;
   draggable: Draggable;
 }
 
-export default class DraggableView extends
-  React.Component<IDraggableViewProps, IDraggableViewState> {
-  public static getDerivedStateFromProps(props: IDraggableViewProps): IDraggableViewState {
+export default class DraggableCell extends
+  React.Component<IDraggableCellProps, IDraggableCellState> {
+  public static getDerivedStateFromProps(props: IDraggableCellProps): IDraggableCellState {
     const { top, left } = props;
     const grid = new Grid(props);
     const draggable = new Draggable(props);
