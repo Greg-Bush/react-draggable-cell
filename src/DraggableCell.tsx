@@ -30,6 +30,16 @@ interface IDraggableCellState extends IDraggableState {
 
 export default class DraggableCell extends
   React.Component<IDraggableCellProps, IDraggableCellState> {
+  public constructor(props) {
+    super(props);
+    this.state = {
+      touchedCells: [],
+      left: 0,
+      top: 0,
+      grid: new Grid(props),
+      draggable: new Draggable(props),
+    };
+  }
   public static getDerivedStateFromProps(props: IDraggableCellProps): IDraggableCellState {
     const { top, left } = props;
     const grid = new Grid(props);
